@@ -24,7 +24,8 @@ namespace Blog.Controllers
         // GET: Posts
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Post.ToListAsync());
+            return View(await _context.Post
+                .Where(j => j.userId == User.Identity.Name).ToListAsync());
         }
 
         // GET: Posts/Details/5
@@ -58,7 +59,7 @@ namespace Blog.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Body")] Post post)
+        public async Task<IActionResult> Create([Bind("Id,Title,Body,userId")] Post post)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +93,7 @@ namespace Blog.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Body")] Post post)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Body,userId")] Post post)
         {
             if (id != post.Id)
             {
