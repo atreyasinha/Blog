@@ -20,6 +20,7 @@ namespace Blog.Controllers
             _context = context;
         }
 
+        [Authorize]
         // GET: Posts
         public async Task<IActionResult> Index()
         {
